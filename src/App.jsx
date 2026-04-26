@@ -691,6 +691,7 @@ export default function App() {
   const [showRevisions,   setShowRevisions]   = useState(false);
   const [explosions,      setExplosions]      = useState([]);
   const [revBadgePulse,   setRevBadgePulse]   = useState(false);
+  const [showAllDays,     setShowAllDays]     = useState(false);
 
   // ── Initialization: load from localStorage or seed from default syllabus ────
   useEffect(() => {
@@ -1034,7 +1035,7 @@ export default function App() {
             </div>
 
             <div className="space-y-6">
-              {schedule.slice(1, 7).map((day, di) => (
+              {(showAllDays ? schedule.slice(1) : schedule.slice(1, 7)).map((day, di) => (
                 <div key={di}>
                   <div className="text-xs text-gray-800 font-mono mb-2 tracking-widest">DAY {di + 2}</div>
                   <div className="space-y-2">
@@ -1059,9 +1060,19 @@ export default function App() {
                 </div>
               ))}
               {schedule.length > 7 && (
-                <div className="text-center text-gray-800 text-xs py-3 font-mono">
-                  +{schedule.length - 7} more days in the campaign
-                </div>
+                <button
+                  onClick={() => setShowAllDays((v) => !v)}
+                  className="w-full py-3 rounded-xl text-xs font-mono tracking-widest transition-all active:scale-95 flex items-center justify-center gap-2"
+                  style={{ background: "#0a0a15", border: "1px solid #00ffff18", color: "#00ffff66" }}
+                >
+                  <ChevronRight
+                    size={12}
+                    style={{ transform: showAllDays ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
+                  />
+                  {showAllDays
+                    ? "COLLAPSE CAMPAIGN"
+                    : `SHOW ALL ${schedule.length - 1} DAYS (+${schedule.length - 7} hidden)`}
+                </button>
               )}
             </div>
           </div>
