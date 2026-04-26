@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#030308" />
+    <meta name="description" content="Neural Grind — MHT-CET Cyberpunk Combat Study System" />
+
+    <!-- Google Fonts: Orbitron (display) + JetBrains Mono (code/body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>NEURAL GRIND · MHT-CET Combat System</title>
+
+    <style>
+      /* Critical above-the-fold styles to prevent FOUC */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        background-color: #030308;
+        color: #ffffff;
+        font-family: 'JetBrains Mono', monospace;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+      #root { min-height: 100vh; }
+
+      /* Custom scrollbar — applied early to avoid layout shift */
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: #0a0a1a; }
+      ::-webkit-scrollbar-thumb { background: #00ffff44; border-radius: 2px; }
+      ::-webkit-scrollbar-thumb:hover { background: #00ffff88; }
+
+      /* Loading screen shown until React hydrates */
+      #boot-screen {
+        position: fixed; inset: 0;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        background: #030308; z-index: 9999;
+        font-family: 'Orbitron', monospace;
+        transition: opacity 0.4s ease;
+      }
+      #boot-screen.hidden { opacity: 0; pointer-events: none; }
+      .boot-title {
+        font-size: 2rem; font-weight: 900;
+        color: #00ffff;
+        text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff44;
+        letter-spacing: 0.2em;
+        animation: bootGlow 1.5s ease-in-out infinite;
+      }
+      .boot-sub {
+        margin-top: 0.5rem; font-size: 0.6rem;
+        color: #00ffff66; letter-spacing: 0.3em;
+      }
+      .boot-bar-wrap {
+        margin-top: 2rem; width: 200px; height: 2px;
+        background: #0a0a18; border-radius: 2px; overflow: hidden;
+      }
+      .boot-bar {
+        height: 100%; width: 0%;
+        background: linear-gradient(90deg, #00ffff, #00ff9f);
+        box-shadow: 0 0 8px #00ffff;
+        animation: bootLoad 1.2s ease-in-out forwards;
+      }
+      @keyframes bootGlow {
+        0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; }
+        50%       { text-shadow: 0 0 20px #00ffff, 0 0 50px #00ffff88; }
+      }
+      @keyframes bootLoad {
+        0%   { width: 0%; }
+        60%  { width: 75%; }
+        100% { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Boot splash — hidden once React mounts -->
+    <div id="boot-screen">
+      <div class="boot-title">NEURAL GRIND</div>
+      <div class="boot-sub">MHT-CET COMBAT SYSTEM · INITIALISING</div>
+      <div class="boot-bar-wrap"><div class="boot-bar"></div></div>
+    </div>
+
+    <!-- React root -->
+    <div id="root"></div>
+
+    <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      // Hide boot screen once React has painted its first frame
+      window.__hideBootScreen = function () {
+        var el = document.getElementById('boot-screen');
+        if (el) { el.classList.add('hidden'); setTimeout(function(){ el.remove(); }, 500); }
+      };
+    </script>
+  </body>
+</html>

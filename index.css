@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Global cyberpunk animations ───────────────────────────────────────────── */
+@layer utilities {
+  .animate-glow-text {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+  .animate-explode {
+    animation: explode 0.8s ease-out forwards;
+  }
+  .cyber-grid-bg {
+    background-image: linear-gradient(rgba(0,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+/* ── Framer Motion exit animations ─────────────────────────────────────────── */
+@keyframes slideOutRight {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0; }
+}
+
+/* ── Particle explosion ─────────────────────────────────────────────────────── */
+@keyframes explode {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+/* ── Timer ring transition ──────────────────────────────────────────────────── */
+.timer-ring-progress {
+  transition: stroke-dashoffset 0.5s linear;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+/* ── Neon input focus ───────────────────────────────────────────────────────── */
+input:focus, button:focus-visible {
+  outline: 1px solid #00ffff88;
+  outline-offset: 2px;
+}
+
+/* ── Selection color ────────────────────────────────────────────────────────── */
+::selection {
+  background: #00ffff33;
+  color: #ffffff;
+}
